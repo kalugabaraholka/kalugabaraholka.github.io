@@ -1,15 +1,29 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Single Image</title>
+    <title>Калуга Барахолка - Оффициальный сайт</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
     <style>
         :root {
             --background-color-light: #f0f0f0;
             --background-color-dark: #181818;
+            --background-color-pink: #ffccf9;
+            --background-color-mint: #ccffcc;
+            --background-color-blue: #ccf2ff;
+            --background-color-gray-purple: #a9a9c9; /* Серобуромалиновый */
+            --background-color-gold: #ffd700; /* Золотой */
+            --background-color-flesh: #ffe4c4; /* Телесный */
+            --background-color-rainbow: linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet); /* Радужный градиент */
             --text-color-light: #000;
             --text-color-dark: #fff;
+            --text-color-pink: #8b008b;
+            --text-color-mint: #006400;
+            --text-color-blue: #003366;
+            --text-color-gray-purple: #4b0082; /* Серобуромалиновый */
+            --text-color-gold: #8b4513; /* Золотой */
+            --text-color-flesh: #8b0000; /* Телесный */
+            --text-color-rainbow: #fff; /* Белый текст для радужного градиента */
         }
 
         body {
@@ -21,6 +35,8 @@
             background-color: var(--background-color-light);
             color: var(--text-color-light);
             transition: background-color 0.3s, color 0.3s;
+            flex-direction: column;
+            cursor: pointer; 
         }
 
         body.dark-mode {
@@ -28,40 +44,120 @@
             color: var(--text-color-dark);
         }
 
+        body.pink-mode {
+            background-color: var(--background-color-pink);
+            color: var(--text-color-pink);
+        }
+
+        body.mint-mode {
+            background-color: var(--background-color-mint);
+            color: var(--text-color-mint);
+        }
+
+        body.blue-mode {
+            background-color: var(--background-color-blue);
+            color: var(--text-color-blue);
+        }
+
+        body.gray-purple-mode {
+            background-color: var(--background-color-gray-purple);
+            color: var(--text-color-gray-purple);
+        }
+
+        body.gold-mode {
+            background-color: var(--background-color-gold);
+            color: var(--text-color-gold);
+        }
+
+        body.flesh-mode {
+            background-color: var(--background-color-flesh);
+            color: var(--text-color-flesh);
+        }
+
+        body.rainbow-mode {
+            background: linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet);
+            background-size: 400% 400%;
+            animation: rainbowAnimation 10s ease infinite;
+            color: var(--text-color-rainbow);
+        }
+
+        @keyframes rainbowAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
         img {
             max-width: 100%;
-            max-height: 100%;
-        }
-
-        .theme-toggle {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            padding: 10px 20px;
-            background-color: rgba(0, 0, 0, 0.5);
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        body.dark-mode .theme-toggle {
-            background-color: rgba(255, 255, 255, 0.5);
-            color: #000;
+            max-height: 80%;
+            cursor: pointer; /* не лезь куда не просят, школьник */
         }
     </style>
 </head>
 <body>
-    <button class="theme-toggle" onclick="toggleTheme()">Тёмная Калуга Барахолка</button>
     <img src="image.webp" alt="Single Image">
 
     <script>
+        const themes = [
+            { name: 'Светлая Калуга Барахолка', className: '' },
+            { name: 'Тёмная Калуга Барахолка', className: 'dark-mode' },
+            { name: 'Розовая Калуга Барахолка', className: 'pink-mode' },
+            { name: 'Мятная Калуга Барахолка', className: 'mint-mode' },
+            { name: 'Голубая Калуга Барахолка', className: 'blue-mode' },
+            { name: 'Серобуромалиновая Калуга Барахолка', className: 'gray-purple-mode' },
+            { name: 'Золотая Калуга Барахолка', className: 'gold-mode' },
+            { name: 'Телесная Калуга Барахолка', className: 'flesh-mode' },
+            { name: 'Гейская Калуга Барахолка', className: 'rainbow-mode' }
+        ];
+
+        let currentThemeIndex = 0;
+        let clickCount = 0;
+        const maxClicks = 15;
+        const originalImage = 'image.webp';
+        const newImage = 'idi.webp';
+        const imageElement = document.querySelector('img');
+
         function toggleTheme() {
             const body = document.body;
-            const button = document.querySelector('.theme-toggle');
-            body.classList.toggle('dark-mode');
-            button.textContent = body.classList.contains('dark-mode') ? 'Светлая Калуга Барахолка' : 'Тёмная Калуга Барахолка';
+
+            body.classList.remove(
+                'dark-mode',
+                'pink-mode',
+                'mint-mode',
+                'blue-mode',
+                'gray-purple-mode',
+                'gold-mode',
+                'flesh-mode',
+                'rainbow-mode'
+            );
+
+            currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+
+            const newTheme = themes[currentThemeIndex];
+            if (newTheme.className) {
+                body.classList.add(newTheme.className);
+            }
+
+            clickCount++;
+
+            if (clickCount === maxClicks) {
+                imageElement.src = newImage;
+            }
         }
+
+        document.body.addEventListener('click', toggleTheme);
+
+        imageElement.addEventListener('click', () => {
+            if (imageElement.src.endsWith(newImage)) {
+                imageElement.src = originalImage;
+            }
+        });
     </script>
 </body>
 </html>
