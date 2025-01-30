@@ -3,70 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Калуга Барахолка для старых систем и браузеров</title>
+    <title>Файлобарахолка - Калуга Барахолка</title>
     <meta name="description" content="Добро пожаловать на официальный сайт Калуга Барахолка - Облегчённая версия">
     <style>
         body {
             margin: 0;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             flex-direction: column;
-            min-height: 150vh; /* Make the site longer */
-            background: linear-gradient(135deg, #f0f0f0, #ffffff);
-            font-family: Arial, sans-serif;
-            text-align: center;
+            min-height: 150vh;
+            background-color: #008080; /* Windows XP teal background */
+            font-family: Tahoma, sans-serif;
+            text-align: left;
+            padding: 20px;
         }
-        .main-image {
+        .start-button {
             display: flex;
-            justify-content: center;
             align-items: center;
-        }
-        .main-image img {
-            max-width: 80%;
-            max-height: 60vh;
-            border-radius: 25px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background-color: #c0c0c0; /* Windows XP Start button color */
+            padding: 10px;
+            border: 2px solid #fff;
+            border-radius: 5px;
             cursor: pointer;
         }
-        .main-image img:hover {
-            transform: scale(1.05);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+        .start-button img {
+            max-width: 40px;
+            max-height: 40px;
         }
-        .file-links {
-            margin: 20px;
-            display: none; /* Hide the links initially */
+        .start-button span {
+            margin-left: 10px;
+            font-size: 1.2rem;
+            color: #000;
         }
-        .file-links a {
-            display: block;
-            margin: 10px 0;
-            color: #007bff;
+        .menu {
+            display: none;
+            flex-direction: column;
+            background-color: #f0f0f0;
+            border: 2px solid #000;
+            border-radius: 5px;
+            padding: 10px;
+            margin-top: 10px;
+        }
+        .menu a {
+            color: #000;
             text-decoration: none;
-            font-weight: bold;
+            font-size: 1rem;
+            padding: 5px;
         }
-        .file-links a:hover {
-            color: #0056b3;
-        }
-        .return-link {
-            display: block;
-            margin: 20px 0;
-            color: #28a745;
-            text-decoration: none;
-            font-weight: bold;
-        }
-        .return-link:hover {
-            color: #218838;
+        .menu a:hover {
+            background-color: #c0c0c0;
         }
     </style>
 </head>
 <body>
-    <div class="main-image">
-        <img src="image.webp" alt="Image" id="main-image">
+    <div class="start-button" id="start-button">
+        <img src="image.webp" alt="Start">
+        <span>Пуск</span>
     </div>
-    
-    <h1>Файлобарахолка</h1>
-    <div id="files-section" class="file-links">
+    <div id="menu" class="menu">
         <a href="https://www.waterfox.net/download/" target="_blank">Скачать Waterfox</a>
         <a href="https://cloud.mail.ru/public/K5HX/iVtFuKKVb" target="_blank">Скачать Revert8Plus</a>
         <a href="https://store.steampowered.com/about/" target="_blank">Скачать Steam</a>
@@ -79,12 +74,11 @@
     </div>
 
     <script>
-        const imageElement = document.getElementById('main-image');
-        const fileLinks = document.getElementById('files-section');
+        const startButton = document.getElementById('start-button');
+        const menu = document.getElementById('menu');
 
-        imageElement.addEventListener('click', () => {
-            fileLinks.style.display = 'block';
-            fileLinks.scrollIntoView({ behavior: 'smooth' });
+        startButton.addEventListener('click', () => {
+            menu.style.display = menu.style.display === 'none' ? 'flex' : 'none';
         });
     </script>
 </body>
