@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Файлобарахолка - Калуга Барахолка</title>
+    <meta name="description" content="Добро пожаловать на официальный сайт Калуга Барахолка - Облегчённая версия">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Display:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background: url('https://wallpapers.com/images/high/airplanesand-wind-turbinein-green-field-9j7jz4tyy7e5zior.webp') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Noto Sans Display', sans-serif;
+            color: #fff;
+            overflow: hidden;
+        }
+
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #000, #555, #000);
+            background-size: 400% 400%;
+            animation: gradient 5s ease infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            z-index: 10000;
+            opacity: 1;
+            transition: opacity 1s ease-out;
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .loader-text {
+            font-size: 2rem;
+            color: #fff;
+            text-align: center;
+            opacity: 0;
+            animation: fadeIn 2s 2s forwards;
+        }
+
+        .loader-warning {
+            font-size: 1rem;
+            color: #fff;
+            text-align: center;
+            margin-top: 20px;
+            opacity: 0;
+            animation: fadeIn 2s 3s forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        .taskbar {
+            width: 100%;
+            height: 50px;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+        }
+        .start-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: url('pusk.svg') no-repeat center center;
+            background-size: contain;
+            width: 50px;
+            height: 50px;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .start-button:hover {
+            transform: scale(1.05);
+        }
+        .clock {
+            margin-right: 10px;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        .menu {
+            display: none;
+            flex-direction: column;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            padding: 10px;
+            position: absolute;
+            bottom: 60px;
+            left: 10px;
+            z-index: 1000;
+            width: 250px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .menu-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .menu-header img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .menu-header div {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #fff;
+        }
+        .menu a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1rem;
+            padding: 5px;
+            display: block;
+            border-radius: 3px;
+            transition: background 0.3s ease;
+        }
+        .menu a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        .content {
+            margin-top: 20px;
+            padding: 20px;
+            text-align: center;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .content img {
+            max-width: 100%;
+            height: auto;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+        .notification {
+            display: none;
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            padding: 10px;
+            color: #fff;
+            z-index: 3000;
+        }
+
+        .window {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            height: 300px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            z-index: 2000;
+            overflow: hidden;
+            opacity: 0;
+            animation: fadeInWindow 0.5s forwards;
+        }
+        .window.hidden {
+            animation: fadeOutWindow 0.5s forwards;
+        }
+        .window-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            cursor: move;
+        }
+        .window-header span {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #fff;
+        }
+        .window-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: calc(100% - 50px);
+            overflow: auto;
+        }
+        .window-content img {
+            max-width: 100px;
+            max-height: 100px;
+            margin-bottom: 10px;
+        }
+        .window-content .title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+        .window-content .download-button {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            padding: 10px 20px;
+            color: #fff;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .window-content .download-button:hover {
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .resize-handle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            bottom: 0;
+            right: 0;
+            cursor: se-resize;
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .taskbar-processes {
+            display: flex;
+            align-items: center;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .taskbar-process {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            padding: 5px 10px;
+            margin: 0 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .taskbar-process:hover {
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        @keyframes fadeInWindow {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        @keyframes fadeOutWindow {
+            from {
+                opacity: 1;
+                transform: scale(1);
+            }
+            to {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="loader" id="loader">
+        <div class="loader-text">Добро пожаловать на КалугуБарахолку - ФайлоБарахолку</div>
+        <div class="loader-warning">Рекомендуется запускать на ПК или планшете</div>
+    </div>
+    <div class="menu" id="menu">
+        <div class="menu-header">
+            <img src="https://th.bing.com/th/id/OIP.0EsjwGPU2kzd1srb8S9O4QAAAA?rs=1&pid=ImgDetMain" alt="миньончик42">
+            <div>миньончик42</div>
+        </div>
+        <a href="#" data-url="https://www.waterfox.net/download/" data-title="Waterfox" data-logo="https://www.waterfox.net/static/media/logo.5e7e8e5b.svg">Скачать Waterfox</a>
+        <a href="#" data-url="https://cloud.mail.ru/public/K5HX/iVtFuKKVb" data-title="Revert8Plus" data-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Revert_Windows_10_to_Windows_7_logo.png/220px-Revert_Windows_10_to_Windows_7_logo.png">Скачать Revert8Plus</a>
+        <a href="#" data-url="https://store.steampowered.com/about/" data-title="Steam" data-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Steam_icon_logo.svg/220px-Steam_icon_logo.svg.png">Скачать Steam</a>
+        <a href="#" data-url="https://notepad-plus-plus.org/downloads/" data-title="NotePad++" data-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Notepad%2B%2B_Logo.png/220px-Notepad%2B%2B_Logo.png">Скачать NotePad++</a>
+        <a href="#" data-url="https://supermium.com/" data-title="Supermium" data-logo="https://supermium.com/assets/images/logo.png">Скачать Supermium</a>
+        <a href="#" data-url="https://www.fosshub.com/qBittorrent.html" data-title="QBitTorrent" data-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Qbittorrent_logo.svg/220px-Qbittorrent_logo.svg.png">Скачать QBitTorrent</a>
+        <a href="#" data-url="https://drive.google.com/drive/folders/1M_OVQJZ8FYc4FQv0kozGxdqb9_aDPvPc?usp=sharing" data-title="Switch Emulator" data-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Yuzu_logo.svg/220px-Yuzu_logo.svg.png">Скачать эмулятор Switch + keys&firmware</a>
+        <a href="#" data-url="https://archive.org/download/windows-7-wallpaper-pack/Windows%207%20Wallpaper%20Pack.rar" data-title="Windows 7 Wallpapers" data-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Windows_7_logo.svg/220px-Windows_7_logo.svg.png">Скачать обои из Windows 7</a>
+        <a href="#" data-title="Калуга Барахолка" data-logo="image.webp" id="open-kaluga-baraholka">Открыть калуга барахолку</a>
+        <a href="#" id="change-wallpaper">Сменить обои</a>
+        <a href="#" id="show-authors">Авторы</a>
+        <a href="#" id="close-all-windows">Закрыть все окна</a>
+    </div>
+    <div class="taskbar" id="taskbar">
+        <button class="start-button" id="start-button"></button>
+        <div class="taskbar-processes" id="taskbar-processes"></div>
+        <div class="clock" id="clock"></div>
+    </div>
+    <div class="content">
+        <img src="f.svg" alt="Файлобарахолка">
+    </div>
+    <div class="notification" id="notification"></div>
+    <audio id="welcome-audio" src="Sound_20015.mp3" preload="auto"></audio>
+<script>
+        const startButton = document.getElementById('start-button');
+        const menu = document.getElementById('menu');
+        const taskbarProcesses = document.getElementById('taskbar-processes');
+        const closeAllWindowsButton = document.getElementById('close-all-windows');
+        const changeWallpaperButton = document.getElementById('change-wallpaper');
+        const showAuthorsButton = document.getElementById('show-authors');
+        const notification = document.getElementById('notification');
+        const taskbar = document.getElementById('taskbar');
+        const welcomeAudio = document.getElementById('welcome-audio');
+
+        let windowsOpen = 0;
+        const openWindows = {};
+        const wallpapers = [
+            "https://frutigeraeroarchive.org/images/wallpapers/windows_7/windows_7_2.jpg",
+            "https://frutigeraeroarchive.org/images/wallpapers/materialdictionary149/materialdictionary149_29.jpg",
+            "https://frutigeraeroarchive.org/images/wallpapers/materialdictionary178/materialdictionary178_15.jpg",
+            "https://ia802706.us.archive.org/35/items/windows-xp-autumn-wallpaper/3ma6nhepxbb81.jpg"
+        ];
+        let currentWallpaperIndex = 0;
+
+        startButton.addEventListener('click', () => {
+            menu.style.display = menu.style.display === 'none' || menu.style.display === '' ? 'flex' : 'none';
+        });
+
+        function addProcessToTaskbar(processName, elementId) {
+            const processButton = document.createElement('div');
+            processButton.classList.add('taskbar-process');
+            processButton.textContent = processName;
+            processButton.draggable = true;
+            processButton.onclick = () => toggleWindow(elementId);
+            taskbarProcesses.appendChild(processButton);
+
+            processButton.addEventListener('dragstart', (e) => {
+                e.dataTransfer.setData('text/plain', elementId);
+                processButton.classList.add('dragging');
+            });
+
+            processButton.addEventListener('dragend', () => {
+                processButton.classList.remove('dragging');
+            });
+
+            taskbarProcesses.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                const afterElement = getDragAfterElement(taskbarProcesses, e.clientX);
+                const draggingElement = document.querySelector('.dragging');
+                if (afterElement == null) {
+                    taskbarProcesses.appendChild(draggingElement);
+                } else {
+                    taskbarProcesses.insertBefore(draggingElement, afterElement);
+                }
+            });
+
+            return processButton;
+        }
+
+        function getDragAfterElement(container, x) {
+            const draggableElements = [...container.querySelectorAll('.taskbar-process:not(.dragging)')];
+            return draggableElements.reduce((closest, child) => {
+                const box = child.getBoundingClientRect();
+                const offset = x - box.left - box.width / 2;
+                if (offset < 0 && offset > closest.offset) {
+                    return { offset: offset, element: child };
+                } else {
+                    return closest;
+                }
+            }, { offset: Number.NEGATIVE_INFINITY }).element;
+        }
+
+        function toggleWindow(elementId) {
+            const windowElement = document.getElementById(elementId);
+            const isHidden = windowElement.classList.toggle('hidden');
+            setTimeout(() => {
+                windowElement.style.display = isHidden ? 'none' : 'block';
+            }, 500);
+        }
+
+        function showNotification(message) {
+            notification.textContent = message;
+            notification.style.display = 'block';
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+
+        function createWindow(title, content) {
+            if (openWindows[title]) {
+                toggleWindow(openWindows[title].id);
+                return;
+            }
+
+            const windowId = `window-${Date.now()}`;
+            const windowElement = document.createElement('div');
+            windowElement.id = windowId;
+            windowElement.classList.add('window');
+            windowElement.innerHTML = `
+                <div class="window-header" id="${windowId}-header">
+                    <span>${title}</span>
+                </div>
+                <div class="window-content">
+                    ${content}
+                </div>
+                <div class="resize-handle"></div>
+            `;
+
+            document.body.appendChild(windowElement);
+
+            const header = windowElement.querySelector('.window-header');
+            const resizeHandle = windowElement.querySelector('.resize-handle');
+            const processButton = addProcessToTaskbar(title, windowId);
+            openWindows[title] = windowElement;
+
+            let isDragging = false;
+            let offsetX, offsetY;
+
+            header.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                offsetX = e.clientX - windowElement.getBoundingClientRect().left;
+                offsetY = e.clientY - windowElement.getBoundingClientRect().top;
+                windowElement.style.pointerEvents = 'none';
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (isDragging) {
+                    const x = e.clientX - offsetX;
+                    const y = e.clientY - offsetY;
+                    windowElement.style.left = `${x}px`;
+                    windowElement.style.top = `${y}px`;
+                }
+            });
+
+            document.addEventListener('mouseup', () => {
+                isDragging = false;
+                windowElement.style.pointerEvents = 'auto';
+            });
+
+            let isResizing = false;
+            let initialWidth, initialHeight, initialX, initialY;
+
+            resizeHandle.addEventListener('mousedown', (e) => {
+                isResizing = true;
+                initialWidth = windowElement.offsetWidth;
+                initialHeight = windowElement.offsetHeight;
+                initialX = e.clientX;
+                initialY = e.clientY;
+                windowElement.style.pointerEvents = 'none';
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (isResizing) {
+                    const width = initialWidth + (e.clientX - initialX);
+                    const height = initialHeight + (e.clientY - initialY);
+                    windowElement.style.width = `${width}px`;
+                    windowElement.style.height = `${height}px`;
+                }
+            });
+
+            document.addEventListener('mouseup', () => {
+                isResizing = false;
+                windowElement.style.pointerEvents = 'auto';
+            });
+
+            windowElement.style.display = 'block';
+            windowsOpen++;
+        }
+
+        document.querySelectorAll('.menu a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (link.id !== 'change-wallpaper' && link.id !== 'show-authors') {
+                    const title = link.getAttribute('data-title');
+                    const logo = link.getAttribute('data-logo');
+                    const url = link.getAttribute('data-url') || '';
+                    createWindow(title, `<img src="${logo}" alt="${title}"><div class="title">${title}</div><button class="download-button" onclick="window.open('${url}', '_blank')">Скачать</button>`);
+                }
+            });
+        });
+
+        closeAllWindowsButton.addEventListener('click', () => {
+            document.querySelectorAll('.window').forEach(window => {
+                window.remove();
+            });
+            windowsOpen = 0;
+            Object.keys(openWindows).forEach(title => {
+                delete openWindows[title];
+            });
+            while (taskbarProcesses.firstChild) {
+                taskbarProcesses.removeChild(taskbarProcesses.firstChild);
+            }
+        });
+
+        changeWallpaperButton.addEventListener('click', () => {
+            currentWallpaperIndex = (currentWallpaperIndex + 1) % wallpapers.length;
+            document.body.style.backgroundImage = `url('${wallpapers[currentWallpaperIndex]}')`;
+        });
+
+        showAuthorsButton.addEventListener('click', () => {
+            createWindow('Авторы', `<p>Автор: <a href="https://t.me/PazhiloyDed" target="_blank">Пажилой Дед</a></p>`);
+        });
+
+        function updateClock() {
+            const clockElement = document.getElementById('clock');
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const date = `${now.getDate().toString().padStart(2, '0')}.${(now.getMonth() + 1).toString().padStart(2, '0')}.${now.getFullYear()}`;
+            clockElement.textContent = `${hours}:${minutes} ${date}`;
+        }
+
+        updateClock();
+        setInterval(updateClock, 1000);
+
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const loader = document.getElementById('loader');
+                loader.style.opacity = '0';
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                    welcomeAudio.play().catch(error => {
+                        console.error("Failed to play audio:", error);
+                    });
+                }, 1000);
+            }, 5000);
+        });
+    </script>
+</body>
+</html>
