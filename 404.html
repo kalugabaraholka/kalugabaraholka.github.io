@@ -3,44 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Страница не найдена - Калуга Барахолка</title>
+    <title>404 Not Found</title>
     <style>
         body {
             margin: 0;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            flex-direction: column;
-            min-height: 100vh;
-            background: linear-gradient(135deg, #f0f0f0, #ffffff);
+            background: linear-gradient(45deg, green, blue);
+            animation: gradient 3s infinite alternate;
+            color: white;
             font-family: Arial, sans-serif;
+        }
+
+        @keyframes gradient {
+            0% { background: linear-gradient(45deg, green, blue); }
+            100% { background: linear-gradient(45deg, blue, green); }
+        }
+
+        .text-container {
             text-align: center;
         }
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 20px;
-        }
-        p {
-            font-size: 1.2rem;
-            margin-bottom: 30px;
-        }
-        a {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
+
+        .text-container a {
+            display: block;
+            margin: 20px 0;
+            font-size: 2em;
             text-decoration: none;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
+            color: white;
+            transition: transform 0.3s;
         }
-        a:hover {
-            background-color: #0056b3;
+
+        .text-container a:hover {
+            transform: scale(1.2);
         }
     </style>
 </head>
 <body>
-    <h1>404 - калуга барахолка</h1>
-    <p>калуга барахолка.</p>
-    <a href="index.html">калуга барахолка</a>
+    <div class="text-container">
+        <a href="/index.html">файлобарахолка</a>
+        <a href="/xp">файлобарахолка xp</a>
+    </div>
 </body>
 </html>
