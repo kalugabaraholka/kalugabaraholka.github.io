@@ -3,356 +3,133 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Файлобарахолка MOBILE - Калуга Барахолка MOBILE</title>
-    <meta name="description" content="Добро пожаловать на официальный сайт Калуга Барахолка MOBILE - Файлобарахолка MOBILE. Загрузите полезные программы и обои.">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Display:wght@400;700&display=swap" rel="stylesheet">
-
-    <!-- Open Graph meta tags -->
-    <meta property="og:title" content="Файлобарахолка MOBILE - Калуга Барахолка MOBILE">
-    <meta property="og:description" content="Добро пожаловать на официальный сайт Калуга Барахолка MOBILE. Загрузите полезные программы и обои.">
-    <meta property="og:url" content="https://kalugabaraholka.ru">
-    <meta property="og:type" content="website">
-
+    <title>Файлобарахолка MOBILE</title>
     <style>
         body {
             margin: 0;
             display: flex;
             flex-direction: column;
-            min-height: 100vh;
+            height: 100vh;
             background: url('https://wallpapers.com/images/high/airplanesand-wind-turbinein-green-field-9j7jz4tyy7e5zior.webp') no-repeat center center fixed;
             background-size: cover;
-            font-family: 'Noto Sans Display', sans-serif;
+            font-family: Arial, sans-serif;
             color: #fff;
             overflow: hidden;
         }
 
-        .loader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, #000, #555, #000);
-            background-size: 400% 400%;
-            animation: gradient 5s ease infinite;
+        .top-bar {
+            height: 50px;
+            background: rgba(0, 0, 0, 0.8);
             display: flex;
             align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            z-index: 10000;
-            opacity: 1;
-            transition: opacity 1s ease-out;
+            justify-content: space-around;
+            padding: 0 10px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
         }
 
-        @keyframes gradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        .top-bar-button {
+            color: white;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.2);
         }
 
         .window {
-            width: 100%;
-            height: calc(100vh - 60px); /* Full height minus taskbar */
+            width: 80%;
+            height: 60vh;
             position: absolute;
-            top: 0;
-            background: rgba(0, 0, 0, 0.8);
+            top: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.9);
             border: 1px solid #fff;
-            border-radius: 8px 8px 0 0;
+            border-radius: 10px;
             overflow: hidden;
             display: none;
         }
 
         .window-header {
-            background: #333;
+            background: #444;
             padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             cursor: move;
-            user-select: none;
+        }
+
+        .window-buttons span {
+            cursor: pointer;
+            padding: 5px 10px;
+            margin-left: 5px;
+            background: white;
+            color: black;
+            border-radius: 5px;
         }
 
         .window-content {
             padding: 10px;
-            height: calc(100% - 40px); /* Adjust for header height */
             overflow-y: auto;
-        }
-
-        .taskbar {
-            height: 60px;
-            background: rgba(0, 0, 0, 0.8);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 10px;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
-
-        .start-button {
-            width: 60px;
-            height: 60px;
-            background: url('start-button.png') no-repeat center center;
-            background-size: contain;
-            cursor: pointer;
-        }
-
-        .taskbar-process {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 5px 10px;
-            margin: 0 5px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .clock {
-            font-size: 1.2rem;
-        }
-
-        .menu {
-            display: none;
-            position: absolute;
-            bottom: 60px;
-            left: 10px;
-            background: rgba(0, 0, 0, 0.8);
-            padding: 10px;
-            border-radius: 8px;
-        }
-
-        .menu a {
-            color: #fff;
-            text-decoration: none;
-            display: block;
-            margin: 5px 0;
-        }
-
-        .notification {
-            position: fixed;
-            bottom: 70px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.8);
-            padding: 10px;
-            border-radius: 8px;
-            display: none;
+            height: calc(100% - 40px);
         }
     </style>
 </head>
 <body>
-    <div class="loader" id="loader">
-        <h1>Загрузка...</h1>
+    <div class="top-bar">
+        <div class="top-bar-button" onclick="openWindow('app1', 'О программе')">О программе</div>
+        <div class="top-bar-button" onclick="openWindow('app2', 'Настройки')">Настройки</div>
+        <div class="top-bar-button" onclick="changeWallpaper()">Сменить обои</div>
     </div>
-    <div class="taskbar" id="taskbar">
-        <div class="start-button" id="start-button"></div>
-        <div id="taskbar-processes"></div>
-        <div class="clock" id="clock"></div>
+    
+    <div class="window" id="app1">
+        <div class="window-header">
+            <span>О программе</span>
+            <div class="window-buttons">
+                <span onclick="minimizeWindow('app1')">-</span>
+                <span onclick="closeWindow('app1')">×</span>
+            </div>
+        </div>
+        <div class="window-content">
+            <p>Это информационное окно.</p>
+        </div>
     </div>
-    <div class="menu" id="menu">
-        <a href="#" id="close-all-windows">Закрыть все окна</a>
-        <a href="#" id="change-wallpaper">Сменить обои</a>
-        <a href="#" id="show-authors">Авторы</a>
+    
+    <div class="window" id="app2">
+        <div class="window-header">
+            <span>Настройки</span>
+            <div class="window-buttons">
+                <span onclick="minimizeWindow('app2')">-</span>
+                <span onclick="closeWindow('app2')">×</span>
+            </div>
+        </div>
+        <div class="window-content">
+            <p>Настройки интерфейса.</p>
+        </div>
     </div>
-    <div class="notification" id="notification"></div>
-    <audio id="welcome-audio" src="welcome.mp3"></audio>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const startButton = document.getElementById('start-button');
-            const menu = document.getElementById('menu');
-            const taskbarProcesses = document.getElementById('taskbar-processes');
-            const closeAllWindowsButton = document.getElementById('close-all-windows');
-            const changeWallpaperButton = document.getElementById('change-wallpaper');
-            const showAuthorsButton = document.getElementById('show-authors');
-            const notification = document.getElementById('notification');
-            const taskbar = document.getElementById('taskbar');
-            const welcomeAudio = document.getElementById('welcome-audio');
+        function openWindow(id, title) {
+            const windowEl = document.getElementById(id);
+            windowEl.style.display = 'block';
+        }
 
-            let windowsOpen = 0;
-            const openWindows = {};
-            const wallpapers = [
-                "https://frutigeraeroarchive.org/images/wallpapers/windows_7/windows_7_2.jpg",
-                "https://frutigeraeroarchive.org/images/wallpapers/materialdictionary149/materialdictionary149_29.jpg",
-                "https://frutigeraeroarchive.org/images/wallpapers/materialdictionary178/materialdictionary178_15.jpg",
-                "https://ia802706.us.archive.org/35/items/windows-xp-autumn-wallpaper/3ma6nhepxbb81.jpg"
-            ];
-            let currentWallpaperIndex = 0;
+        function closeWindow(id) {
+            document.getElementById(id).style.display = 'none';
+        }
 
-            startButton.addEventListener('click', () => {
-                menu.style.display = menu.style.display === 'none' || menu.style.display === '' ? 'flex' : 'none';
-            });
+        function minimizeWindow(id) {
+            document.getElementById(id).style.display = 'none';
+        }
 
-            function addProcessToTaskbar(processName, elementId) {
-                const processButton = document.createElement('div');
-                processButton.classList.add('taskbar-process');
-                processButton.textContent = processName;
-                processButton.draggable = true;
-                processButton.onclick = () => toggleWindow(elementId);
-                taskbarProcesses.appendChild(processButton);
-
-                processButton.addEventListener('dragstart', (e) => {
-                    e.dataTransfer.setData('text/plain', elementId);
-                    processButton.classList.add('dragging');
-                });
-
-                processButton.addEventListener('dragend', () => {
-                    processButton.classList.remove('dragging');
-                });
-
-                taskbarProcesses.addEventListener('dragover', (e) => {
-                    e.preventDefault();
-                    const afterElement = getDragAfterElement(taskbarProcesses, e.clientX);
-                    const draggingElement = document.querySelector('.dragging');
-                    if (afterElement == null) {
-                        taskbarProcesses.appendChild(draggingElement);
-                    } else {
-                        taskbarProcesses.insertBefore(draggingElement, afterElement);
-                    }
-                });
-
-                return processButton;
-            }
-
-            function getDragAfterElement(container, x) {
-                const draggableElements = [...container.querySelectorAll('.taskbar-process:not(.dragging)')];
-                return draggableElements.reduce((closest, child) => {
-                    const box = child.getBoundingClientRect();
-                    const offset = x - box.left - box.width / 2;
-                    if (offset < 0 && offset > closest.offset) {
-                        return { offset: offset, element: child };
-                    } else {
-                        return closest;
-                    }
-                }, { offset: Number.NEGATIVE_INFINITY }).element;
-            }
-
-            function toggleWindow(elementId) {
-                const windowElement = document.getElementById(elementId);
-                const isHidden = windowElement.classList.toggle('hidden');
-                setTimeout(() => {
-                    windowElement.style.display = isHidden ? 'none' : 'block';
-                }, 500);
-            }
-
-            function showNotification(message) {
-                notification.textContent = message;
-                notification.style.display = 'block';
-                setTimeout(() => {
-                    notification.style.display = 'none';
-                }, 3000);
-            }
-
-            function createWindow(title, content) {
-                if (openWindows[title]) {
-                    toggleWindow(openWindows[title].id);
-                    return;
-                }
-
-                const windowId = `window-${Date.now()}`;
-                const windowElement = document.createElement('div');
-                windowElement.id = windowId;
-                windowElement.classList.add('window');
-                windowElement.innerHTML = `
-                    <div class="window-header" id="${windowId}-header">
-                        <span>${title}</span>
-                    </div>
-                    <div class="window-content">
-                        ${content}
-                    </div>
-                `;
-
-                document.body.appendChild(windowElement);
-
-                const header = windowElement.querySelector('.window-header');
-                const processButton = addProcessToTaskbar(title, windowId);
-                openWindows[title] = windowElement;
-
-                let isDragging = false;
-                let offsetX, offsetY;
-
-                header.addEventListener('touchstart', (e) => {
-                    isDragging = true;
-                    const touch = e.touches[0];
-                    offsetX = touch.clientX - windowElement.getBoundingClientRect().left;
-                    offsetY = touch.clientY - windowElement.getBoundingClientRect().top;
-                    windowElement.style.pointerEvents = 'none';
-                });
-
-                document.addEventListener('touchmove', (e) => {
-                    if (isDragging) {
-                        const touch = e.touches[0];
-                        const x = touch.clientX - offsetX;
-                        const y = touch.clientY - offsetY;
-                        windowElement.style.left = `${x}px`;
-                        windowElement.style.top = `${y}px`;
-                    }
-                });
-
-                document.addEventListener('touchend', () => {
-                    isDragging = false;
-                    windowElement.style.pointerEvents = 'auto';
-                });
-
-                windowElement.style.display = 'block';
-                windowsOpen++;
-            }
-
-            document.querySelectorAll('.menu a').forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    if (link.id !== 'change-wallpaper' && link.id !== 'show-authors') {
-                        const title = link.getAttribute('data-title');
-                        const logo = link.getAttribute('data-logo');
-                        const url = link.getAttribute('data-url') || '';
-                        createWindow(title, `<img src="${logo}" alt="${title}"><div class="title">${title}</div><button class="download-button" onclick="window.open('${url}', '_blank')">Скачать</button>`);
-                    }
-                });
-            });
-
-            closeAllWindowsButton.addEventListener('click', () => {
-                document.querySelectorAll('.window').forEach(window => {
-                    window.remove();
-                });
-                windowsOpen = 0;
-                Object.keys(openWindows).forEach(title => {
-                    delete openWindows[title];
-                });
-                while (taskbarProcesses.firstChild) {
-                    taskbarProcesses.removeChild(taskbarProcesses.firstChild);
-                }
-            });
-
-            changeWallpaperButton.addEventListener('click', () => {
-                currentWallpaperIndex = (currentWallpaperIndex + 1) % wallpapers.length;
-                document.body.style.backgroundImage = `url('${wallpapers[currentWallpaperIndex]}')`;
-            });
-
-            showAuthorsButton.addEventListener('click', () => {
-                createWindow('Авторы', `<p>Автор: <a href="https://t.me/PazhiloyDed" target="_blank">Пажилой Дед</a></p>`);
-            });
-
-            function updateClock() {
-                const clockElement = document.getElementById('clock');
-                const now = new Date();
-                const hours = String(now.getHours()).padStart(2, '0');
-                const minutes = String(now.getMinutes()).padStart(2, '0');
-                const date = `${now.getDate().toString().padStart(2, '0')}.${(now.getMonth() + 1).toString().padStart(2, '0')}.${now.getFullYear()}`;
-                clockElement.textContent = `${hours}:${minutes} ${date}`;
-            }
-
-            updateClock();
-            setInterval(updateClock, 1000);
-
-            window.addEventListener('load', () => {
-                setTimeout(() => {
-                    const loader = document.getElementById('loader');
-                    loader.style.opacity = '0';
-                    setTimeout(() => {
-                        loader.style.display = 'none';
-                        welcomeAudio.play().catch(error => {
-                            console.error("Failed to play audio:", error);
-                        });
-                    }, 1000);
-                }, 5000);
-            });
-        });
+        function changeWallpaper() {
+            document.body.style.backgroundImage = "url('https://ia802706.us.archive.org/35/items/windows-xp-autumn-wallpaper/3ma6nhepxbb81.jpg')";
+        }
     </script>
+</body>
+</html>
+
 </body>
 </html>
