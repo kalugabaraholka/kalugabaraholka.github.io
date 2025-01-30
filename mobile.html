@@ -15,6 +15,7 @@
             font-family: Arial, sans-serif;
             color: #fff;
             overflow: hidden;
+            position: relative;
         }
 
         .top-bar {
@@ -79,6 +80,17 @@
             height: calc(100% - 60px);
         }
 
+        .centered-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 2rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
         @media (orientation: landscape) {
             body::before {
                 content: 'Пожалуйста, переверните устройство в портретный режим для продолжения.';
@@ -99,6 +111,7 @@
     </style>
 </head>
 <body>
+    <div class="centered-text">лучше на пк - kalugabaraholka.ru</div>
     <div class="top-bar">
         <div class="top-bar-button" onclick="openWindow('app1', 'Скачать Waterfox')">Скачать Waterfox</div>
         <div class="top-bar-button" onclick="openWindow('app2', 'Скачать Revert8Plus')">Скачать Revert8Plus</div>
