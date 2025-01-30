@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Файлобарахолка - Калуга Барахолка</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <style>
+        :root {
+            --background-color-light: #f0f0f0;
+            --background-color-dark: #181818;
+            --background-color-pink: #ffccf9;
+            --background-color-mint: #ccffcc;
+            --background-color-blue: #ccf2ff;
+            --text-color-light: #000;
+            --text-color-dark: #fff;
+        }
+
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: var(--background-color-light);
+            color: var(--text-color-light);
+            transition: background-color 0.3s, color 0.3s;
+            flex-direction: column;
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+
+        body.dark-mode {
+            background-color: var(--background-color-dark) !important;
+            color: var(--text-color-dark) !important;
+        }
+
+        body.pink-mode {
+            background-color: var(--background-color-pink) !important;
+            color: #8b008b !important;
+        }
+
+        body.mint-mode {
+            background-color: var(--background-color-mint) !important;
+            color: #006400 !important;
+        }
+
+        body.blue-mode {
+            background-color: var(--background-color-blue) !important;
+            color: #003366 !important;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        .file-links a, .return-link {
+            display: block;
+            padding: 10px;
+            margin: 5px;
+            background-color: rgba(0, 0, 0, 0.1);
+            text-decoration: none;
+            color: inherit;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        .file-links a:hover, .return-link:hover {
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <h1>Файлобарахолка</h1>
+    <div class="file-links">
+        <a href="https://www.waterfox.net/download/" target="_blank">Скачать Waterfox</a>
+        <a href="https://cloud.mail.ru/public/K5HX/iVtFuKKVb" target="_blank">Скачать Revert8Plus</a>
+        <a href="https://store.steampowered.com/about/" target="_blank">Скачать Steam</a>
+        <a href="https://notepad-plus-plus.org/downloads/" target="_blank">Скачать NotePad++</a>
+        <a href="https://supermium.com/" target="_blank">Скачать Supermium</a>
+        <a href="https://www.qbittorrent.org/download.php" target="_blank">Скачать QBitTorrent</a>
+        <a href="https://drive.google.com/file/d/1a2M5THOosKBhNbNBVBvrOXnhmslhrgWo/view?usp=sharing" target="_blank">Скачать эмулятор Switch</a>
+    </div>
+    <a href="index.html" class="return-link">Вернуться на Калугу Барахолку</a>
+    
+    <script>
+        const themes = ["light-mode", "dark-mode", "pink-mode", "mint-mode", "blue-mode"];
+        let currentThemeIndex = 0;
+
+        function toggleTheme(event) {
+            if (event.target === document.body) {
+                document.body.className = themes[currentThemeIndex];
+                currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+            }
+        }
+
+        document.body.addEventListener('click', toggleTheme);
+    </script>
+</body>
+</html>
