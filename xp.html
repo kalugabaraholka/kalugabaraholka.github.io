@@ -12,7 +12,7 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            min-height: 100vh;
+            min-height: 150vh; /* Make the site longer */
             background: linear-gradient(135deg, #f0f0f0, #ffffff);
             font-family: Arial, sans-serif;
             text-align: center;
@@ -36,38 +36,33 @@
         }
         .file-links {
             margin: 20px;
+            display: none; /* Hide the links initially */
         }
         .file-links a {
             display: block;
             margin: 10px 0;
-            padding: 10px;
-            background: #007bff;
-            color: #fff;
+            color: #007bff;
             text-decoration: none;
-            border-radius: 5px;
+            font-weight: bold;
         }
         .file-links a:hover {
-            background: #0056b3;
+            color: #0056b3;
         }
         .return-link {
             display: block;
             margin: 20px 0;
-            padding: 10px;
-            background: #28a745;
-            color: #fff;
+            color: #28a745;
             text-decoration: none;
-            border-radius: 5px;
+            font-weight: bold;
         }
         .return-link:hover {
-            background: #218838;
+            color: #218838;
         }
     </style>
 </head>
 <body>
     <div class="main-image">
-        <a href="#files-section">
-            <img src="image.webp" alt="Image" id="main-image">
-        </a>
+        <img src="image.webp" alt="Image" id="main-image">
     </div>
     
     <h1>Файлобарахолка</h1>
@@ -85,14 +80,11 @@
 
     <script>
         const imageElement = document.getElementById('main-image');
-        if (!imageElement) {
-            console.error("пашёл в писду");
-        }
-        imageElement.addEventListener('mouseenter', () => {
-            imageElement.src = 'image2.png';
-        });
-        imageElement.addEventListener('mouseleave', () => {
-            imageElement.src = 'image.webp';
+        const fileLinks = document.getElementById('files-section');
+
+        imageElement.addEventListener('click', () => {
+            fileLinks.style.display = 'block';
+            fileLinks.scrollIntoView({ behavior: 'smooth' });
         });
     </script>
 </body>
