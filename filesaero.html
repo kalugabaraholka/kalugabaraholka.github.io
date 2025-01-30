@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Файлобарахолка - Калуга Барахолка</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <style>
+        /* Основные цвета и переменные */
+        :root {
+            --background-color: rgba(0, 0, 0, 0.5); /* Темное наложение для улучшения контраста */
+            --text-color: #f4f4f4; /* Светлый цвет текста */
+            --button-bg: linear-gradient(135deg, rgba(100, 200, 255, 0.4), rgba(50, 150, 200, 0.6)); /* Градиентный фон кнопок */
+            --button-hover-bg: linear-gradient(135deg, rgba(50, 205, 50, 0.6), rgba(100, 255, 100, 0.8)); /* Градиент на ховере */
+            --button-border-radius: 25px; /* Большие закругленные углы для кнопок */
+            --font-family: "Frutiger", Arial, sans-serif; /* Шрифт Frutiger */
+            --shadow-light: 0 8px 16px rgba(0, 0, 0, 0.2); /* Более выраженная тень */
+            --shadow-dark: 0 12px 24px rgba(0, 0, 0, 0.3); /* Темная тень на кнопках */
+            --padding: 20px; /* Отступы для кнопок */
+            --glass-effect: blur(15px); /* Эффект размытия для стеклянного эффекта */
+            --gradient-bg: linear-gradient(135deg, rgba(100, 200, 255, 0.2), rgba(50, 150, 200, 0.4)); /* Градиентный фон */
+            --accent-color: #66bb6a; /* Акцентный цвет */
+        }
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: url('fon.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: var(--text-color);
+            font-family: var(--font-family);
+            text-align: center;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+            transition: background-color 0.3s ease-in-out;
+        }
+        /* Наложение для улучшения читаемости */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4); /* Темная полупрозрачная наложение */
+            z-index: 1;
+        }
+        h1 {
+            margin-bottom: 30px;
+            font-size: 3rem;
+            color: white; /* Белый цвет текста */
+            z-index: 2;
+            background: var(--gradient-bg);
+            padding: 20px;
+            border-radius: var(--button-border-radius);
+            backdrop-filter: var(--glass-effect);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            animation: float 4s ease-in-out infinite;
+        }
+        .file-links {
+            display: flex;
+            flex-direction: column;
+            gap: 20px; /* Одинаковые отступы между кнопками */
+            z-index: 2;
+            width: 90%;
+            max-width: 400px;
+        }
+        .file-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--padding);
+            background: var(--button-bg);
+            border-radius: var(--button-border-radius);
+            text-decoration: none;
+            color: inherit;
+            font-weight: bold;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-light);
+            z-index: 2;
+            border: 2px solid rgba(255, 255, 255, 0.1); /* Добавлена легкая граница */
+            backdrop-filter: var(--glass-effect);
+            position: relative;
+            overflow: hidden;
+        }
+        /* Эффект наведения для кнопок */
+        .file-links a:hover {
+            background: var(--button-hover-bg);
+            color: #fff;
+            transform: scale(1.05);
+            box-shadow: var(--shadow-dark);
+            backdrop-filter: blur(20px);
+        }
+        /* Стиль для кнопки возврата */
+        .return-link {
+            font-size: 1rem;
+            text-decoration: underline;
+            background: var(--gradient-bg);
+            backdrop-filter: var(--glass-effect);
+            padding: var(--padding); /* Одинаковые отступы */
+            border-radius: var(--button-border-radius);
+            transition: all 0.3s ease;
+            color: var(--text-color);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+        .return-link:hover {
+            background: var(--button-hover-bg);
+            color: #fff;
+            transform: scale(1.05);
+            box-shadow: var(--shadow-dark);
+            backdrop-filter: blur(20px);
+        }
+        /* Пузырьковые эффекты */
+        .file-links a::after, .return-link::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3), transparent);
+            transform: translate(-50%, -50%) scale(0);
+            border-radius: 50%;
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+        .file-links a:hover::after, .return-link:hover::after {
+            transform: translate(-50%, -50%) scale(2);
+            opacity: 1;
+        }
+        /* Анимация плавающего заголовка */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        /* Адаптивность для смартфонов */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2rem;
+                padding: 15px;
+            }
+            .file-links a, .return-link {
+                padding: 15px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Файлобарахолка</h1>
+    <div class="file-links">
+        <a href="https://www.waterfox.net/download/" target="_blank">Скачать Waterfox</a>
+        <a href="https://cloud.mail.ru/public/K5HX/iVtFuKKVb" target="_blank">Скачать Revert8Plus</a>
+        <a href="https://store.steampowered.com/about/" target="_blank">Скачать Steam</a>
+        <a href="https://notepad-plus-plus.org/downloads/" target="_blank">Скачать NotePad++</a>
+        <a href="https://supermium.com/" target="_blank">Скачать Supermium</a>
+        <a href="https://www.qbittorrent.org/download.php" target="_blank">Скачать QBitTorrent</a>
+        <a href="https://drive.google.com/file/d/1a2M5THOosKBhNbNBVBvrOXnhmslhrgWo/view?usp=sharing" target="_blank">Скачать эмулятор Switch</a>
+        <a href="index.html" class="return-link">Вернуться на Калугу Барахолку</a>
+    </div>
+</body>
+</html>
