@@ -3,16 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>eldr88</title>
+    <title>Скример</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: black;
+        }
+        video {
+            width: 100%;
+            height: auto;
+        }
+    </style>
 </head>
 <body>
-    <div style="position: relative; padding-top: 56.25%; width: 100%">
-        <iframe src="https://kinescope.io/embed/nGA8dcS5n96CgRKwA6ZW8G" 
-                allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock;" 
-                frameborder="0" allowfullscreen 
-                style="position: absolute; width: 100%; height: 100%; top: 0; left: 0;"></iframe>
-    </div>
-    <audio id="audio" src="pi.mp3" autoplay loop></audio>
+    <video id="video" autoplay loop controls>
+        <source src="pi.mp4" type="video/mp4">
+        Ваш браузер не поддерживает тег video.
+    </video>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let video = document.getElementById("video");
+            video.muted = false;
+            video.volume = 1.0;
+            video.play().catch(() => {
+                document.body.addEventListener("click", () => video.play(), { once: true });
+            });
+        });
+
+        window.addEventListener("beforeunload", function(event) {
+            let password = prompt("Введите пароль для закрытия окна:");
+            if (password !== "88") {
+                event.preventDefault();
+                event.returnValue = "";
+            }
+        });
+
+        window.addEventListener("keydown", function(event) {
+            if (event.ctrlKey && (event.key === "w" || event.key === "W" || event.key === "F4")) {
+                event.preventDefault();
+                alert("Нельзя закрыть страницу!");
+            }
+        });
+
+        window.addEventListener("contextmenu", function(event) {
+            event.preventDefault();
+        });
+
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                alert("Не скрывай страницу!");
+            }
+        });
+    </script>
 </body>
 </html>
-
