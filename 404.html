@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="3;url=/">
+    <title>404 — Страница не найдена</title>
+    <link rel="icon" type="image/x-icon" href="https://teknixstuff.com/icons/full/r8p.ico">
+    <style>
+        :root {
+            --aero-blue: rgba(26, 131, 235, 0.95);
+            --aero-glass-dark: rgba(40, 40, 40, 0.65);
+            --aero-shadow: 0 0 12px rgba(0, 0, 0, 0.25), inset 0 0 6px rgba(255, 255, 255, 0.3);
+            --aero-text-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('https://frutigeraeroarchive.org/images/wallpapers/windows_7/windows_7_2.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .aero-glass-dark {
+            background: var(--aero-glass-dark);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            border-radius: 12px;
+            box-shadow: var(--aero-shadow);
+            padding: 30px;
+            text-align: center;
+            max-width: 500px;
+        }
+
+        .aero-glass-dark::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 40%;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.05));
+            z-index: 0;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin: 0 0 15px;
+            text-shadow: var(--aero-text-shadow);
+            position: relative;
+            z-index: 1;
+        }
+
+        p {
+            font-size: 1.1em;
+            margin: 0;
+            text-shadow: var(--aero-text-shadow);
+            position: relative;
+            z-index: 1;
+        }
+
+        a {
+            color: var(--aero-blue);
+            text-decoration: none;
+            position: relative;
+            z-index: 1;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    </head>
+<body>
+    <div class="aero-glass-dark">
+        <h1>404</h1>
+        <p>Страница не найдена. Вы будете перенаправлены на <a href="/">главную</a> через 3 секунды.</p>
+    </div>
+</body>
+</html>
